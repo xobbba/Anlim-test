@@ -1,0 +1,4 @@
+/.enw/
+/.idea/
+*__pycache__*
+/venv/
