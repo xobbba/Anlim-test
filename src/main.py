@@ -27,7 +27,6 @@ def create_city(city: str = Query(description="Название города", d
         s.add(city_object)
         s.commit()
 
-
     return {'id': city_object.id, 'name': city_object.name, 'weather': city_object.weather}
 
 
@@ -52,7 +51,7 @@ def cities_list(q: str = Query(description="Название города", defa
         print(ex)
 
 
-@app.get('/users', summary='', tags=['User']) # Исправлено с post запроса на get.
+@app.get('/users', summary='', tags=['User'])  # Исправлено с post запроса на get.
 def users_list(answer: Union[str, None] = Query(description='asc/desc', default=None)):
     """
     Список пользователей
@@ -166,14 +165,15 @@ def register_to_picnic(user_id: int = Query(default=None),
         registration = PicnicRegistration(user_id=user_id, picnic_id=picnic_id)
         s.add(registration)
         s.commit()
+
+        return {
+            'id': registration.id
+        }
+
     except Exception:
         raise HTTPException(status_code=500)
     finally:
         s.close()
-
-    return {
-        'id': registration.id
-    }
 
 
 if __name__ == '__main__':
