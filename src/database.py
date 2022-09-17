@@ -1,11 +1,16 @@
+import sqlalchemy
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy_utils import database_exists, create_database
 from external_requests import GetWeatherRequest
 
 # Создание сессии
-SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
-engine = create_engine(SQLALCHEMY_DATABASE_URI, connect_args={'check_same_thread': False})
+# Подключение к локальной БД Postgresql
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:123@localhost/anlim.db'
+if not database_exists(SQLALCHEMY_DATABASE_URI):
+    create_database((SQLALCHEMY_DATABASE_URI))
+engine = create_engine(SQLALCHEMY_DATABASE_URI, pool_size=50, echo=False)
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Подключение базы (с автоматической генерацией моделей)
