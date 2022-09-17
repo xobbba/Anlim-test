@@ -56,8 +56,6 @@ def picnic_add(city_id: int = None, datetime: dt.datetime = None):
         s.close()
 
 
-
-
 @route_picnic.post('/picnic/register', summary='Picnic Registration', tags=['Picnic'])
 def register_to_picnic(user_id: int = Query(default=None),
                        picnic_id: int = Query(default=None)):
